@@ -16,6 +16,7 @@
             --text-muted: #A39C85;
             --correct-green: #E2F5D3;
             --wrong-red: #FCE2E2;
+            --star-gold: #FFD700;
         }
 
         body {
@@ -54,18 +55,19 @@
         /* Navigation Tabs */
         .nav-tabs {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             justify-content: center;
             margin-bottom: 20px;
+            flex-wrap: wrap;
         }
 
         .tab-btn {
             background-color: var(--card-color);
             border: 2px solid var(--accent-yellow);
             border-radius: 12px;
-            padding: 8px 16px;
+            padding: 8px 14px;
             font-family: 'Ranade', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             cursor: pointer;
             color: var(--text-main);
             font-weight: 700;
@@ -98,7 +100,7 @@
             box-shadow: 0 10px 20px rgba(93, 87, 69, 0.05);
             border: 3px solid #FFF;
             margin-bottom: 20px;
-            display: none; /* Controlled by JS */
+            display: none;
         }
 
         .card.active-panel {
@@ -177,7 +179,7 @@
             box-shadow: 0 2px 0px var(--hover-yellow);
         }
 
-        /* Beauty Standards Star Rating Styles */
+        /* Beauty Standards List Styles */
         .rating-row {
             display: flex;
             align-items: center;
@@ -193,9 +195,70 @@
         }
 
         .stars {
-            color: #FFD700;
+            color: var(--star-gold);
             font-size: 1.4rem;
             letter-spacing: 2px;
+        }
+
+        /* Interactive Friend Rate Input Panel */
+        .input-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .rate-input {
+            width: 100%;
+            border: 2px solid var(--accent-yellow);
+            border-radius: 12px;
+            padding: 10px;
+            font-family: 'Ranade', sans-serif;
+            font-size: 1rem;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .star-rating-select {
+            display: flex;
+            gap: 8px;
+            font-size: 2rem;
+            cursor: pointer;
+            color: #DDD;
+            user-select: none;
+            justify-content: center;
+            margin: 10px 0;
+        }
+
+        .star-rating-select .star.selected {
+            color: var(--star-gold);
+        }
+
+        /* Friend Ratings Scoreboard Table */
+        .score-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 1rem;
+        }
+
+        .score-table th {
+            background-color: var(--accent-yellow);
+            padding: 10px;
+            font-weight: 700;
+            text-align: left;
+            border-radius: 6px;
+        }
+
+        .score-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--bg-color);
+            text-align: left;
         }
 
         /* Chat System Styles */
@@ -263,6 +326,7 @@
         <div class="nav-tabs">
             <button class="tab-btn active" id="tab-quiz" onclick="switchTab('quiz')">Quiz 🎮</button>
             <button class="tab-btn" id="tab-beauty" onclick="switchTab('beauty')">My Standards ⭐</button>
+            <button class="tab-btn" id="tab-rate" onclick="switchTab('rate')">Rate Me 📝</button>
             <button class="tab-btn" id="tab-chat" onclick="switchTab('chat')">Chat 💬</button>
         </div>
 
@@ -280,7 +344,6 @@
                 <button class="next-btn" id="next-button" style="display:none;" onclick="nextQuestion()">Next ✨</button>
             </div>
 
-            <!-- Quiz Results Embedded Here -->
             <div id="quiz-results" style="display: none;">
                 <div class="question-text">🎉 Quiz Finished! 🎉</div>
                 <div class="question-text" style="font-size: 2.2rem; color: var(--text-muted);" id="final-score-text">0/0</div>
@@ -289,7 +352,7 @@
             </div>
         </div>
 
-        <!-- PANEL 2: BEAUTY STANDARDS (1-5 STARS) -->
+        <!-- PANEL 2: MY BEAUTY STANDARDS -->
         <div id="panel-beauty" class="card">
             <div class="question-text" style="margin-bottom: 10px;">My Beauty Standards 💅</div>
             <p style="color: var(--text-muted); margin-bottom: 20px;">Features I find attractive rated from 1 to 5 stars!</p>
@@ -300,25 +363,74 @@
                     <span class="stars">⭐⭐⭐⭐⭐</span>
                 </div>
                 <div class="rating-row">
-                    <span class="rating-label">Cute Smile 😁</span>
+                    <span class="rating-label">Cute Face 😊</span>
                     <span class="stars">⭐⭐⭐⭐⭐</span>
                 </div>
                 <div class="rating-row">
-                    <span class="rating-label">Tall Height 📏</span>
+                    <span class="rating-label">Long Cute Hair 💇‍♀️</span>
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-label">Kindness 💖</span>
                     <span class="stars">⭐⭐⭐⭐</span>
                 </div>
                 <div class="rating-row">
-                    <span class="rating-label">Nice Style/Fashion 🧥</span>
-                    <span class="stars">⭐⭐⭐⭐</span>
-                </div>
-                <div class="rating-row">
-                    <span class="rating-label">Fluffy Hair 💇‍♂️</span>
-                    <span class="stars">⭐⭐⭐</span>
+                    <span class="rating-label">Height 📏</span>
+                    <span class="stars">⭐⭐</span>
                 </div>
             </div>
         </div>
 
-        <!-- PANEL 3: CHATTING BOT SIMULATOR -->
+        <!-- PANEL 3: FRIENDS RATE ME & SCOREBOARD -->
+        <div id="panel-rate" class="card">
+            <div class="question-text" style="margin-bottom: 5px;">Rate Me! 🎀</div>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Friends can leave a rating and see the scoreboard below!</p>
+            
+            <!-- Rating Form -->
+            <div style="background-color: var(--bg-color); padding: 20px; border-radius: 20px; border: 2px solid var(--accent-yellow); margin-bottom: 25px;">
+                <div class="input-group">
+                    <label for="friend-name">Your Name:</label>
+                    <input type="text" id="friend-name" class="rate-input" placeholder="Enter your name...">
+                </div>
+                <div class="input-group">
+                    <label>Your Rating for Me:</label>
+                    <div class="star-rating-select" id="star-picker">
+                        <span class="star" data-value="1">★</span>
+                        <span class="star" data-value="2">★</span>
+                        <span class="star" data-value="3">★</span>
+                        <span class="star" data-value="4">★</span>
+                        <span class="star" data-value="5">★</span>
+                    </div>
+                </div>
+                <button class="action-btn" style="margin-top: 5px;" onclick="submitRating()">Submit Review ✨</button>
+            </div>
+
+            <!-- Scoreboard Display -->
+            <div class="question-text" style="font-size: 1.3rem; margin-bottom: 10px; text-align: left;">🏆 Friend Review Board</div>
+            <div style="overflow-x: auto;">
+                <table class="score-table">
+                    <thead>
+                        <tr>
+                            <th>Friend Name</th>
+                            <th>Score Given</th>
+                        </tr>
+                    </thead>
+                    <tbody id="scoreboard-entries">
+                        <!-- Simulated saved friend scores show up here -->
+                        <tr>
+                            <td>Bestie Amy 🦄</td>
+                            <td style="color: var(--star-gold);">⭐⭐⭐⭐⭐</td>
+                        </tr>
+                        <tr>
+                            <td>Chloe ✨</td>
+                            <td style="color: var(--star-gold);">⭐⭐⭐⭐⭐</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PANEL 4: CHATTING BOT SIMULATOR -->
         <div id="panel-chat" class="card">
             <div class="question-text" style="margin-bottom: 10px;">Chat with AI Me! 💬</div>
             <p style="color: var(--text-muted); margin-bottom: 20px;">Ask me questions or say hi!</p>
@@ -344,9 +456,9 @@
                 correct: "Light Yellow"
             },
             {
-                question: "What is my absolute favorite food? 🍰",
+                question: "What is my absolute favorite food? 🍜",
                 options: ["Sushi", "Chocolate Cake", "French Fries", "Ramen"],
-                correct: "Chocolate Cake"
+                correct: "Ramen"
             },
             {
                 question: "What is my absolute favorite animal? 🐾",
@@ -368,6 +480,7 @@
         let currentQuestionIndex = 0;
         let score = 0;
         let hasAnswered = false;
+        let selectedStarRating = 0;
 
         // Elements
         const questionHeader = document.getElementById("question-header");
@@ -476,6 +589,64 @@
             initQuiz();
         }
 
+        // Interactive Star Rating Logic
+        const stars = document.querySelectorAll('#star-picker .star');
+        stars.forEach(star => {
+            star.addEventListener('click', (e) => {
+                selectedStarRating = parseInt(e.target.getAttribute('data-value'));
+                stars.forEach(s => {
+                    if(parseInt(s.getAttribute('data-value')) <= selectedStarRating) {
+                        s.classList.add('selected');
+                    } else {
+                        s.classList.remove('selected');
+                    }
+                });
+            });
+        });
+
+        // Submit Rating to local Session Scoreboard
+        function submitRating() {
+            const nameInput = document.getElementById('friend-name');
+            const nameText = nameInput.value.trim();
+
+            if (!nameText) {
+                alert("Please enter your name first! 🎀");
+                return;
+            }
+            if (selectedStarRating === 0) {
+                alert("Please select a star rating! ⭐");
+                return;
+            }
+
+            // Create Star String
+            let starString = "";
+            for (let i = 0; i < selectedStarRating; i++) {
+                starString += "⭐";
+            }
+
+            // Append to table dynamic scoreboard
+            const scoreboardBody = document.getElementById('scoreboard-entries');
+            const newRow = document.createElement('tr');
+            
+            const nameCell = document.createElement('td');
+            nameCell.textContent = nameText;
+            
+            const scoreCell = document.createElement('td');
+            scoreCell.textContent = starString;
+            scoreCell.style.color = "var(--star-gold)";
+
+            newRow.appendChild(nameCell);
+            newRow.appendChild(scoreCell);
+            scoreboardBody.prepend(newRow); // Adds latest submission to the top
+
+            // Reset Form Fields
+            nameInput.value = "";
+            selectedStarRating = 0;
+            stars.forEach(s => s.classList.remove('selected'));
+
+            alert("Thank you for rating me! Check out your name on the scoreboard below! 💕");
+        }
+
         // Auto Chat Reply Engine
         function sendMessage() {
             const chatField = document.getElementById("chat-field");
@@ -495,12 +666,14 @@
                     reply = "I absolutely love crochet! Making plushies and blankets is so cozy. 🧶";
                 } else if (lowerText.includes("boyfriend") || lowerText.includes("american")) {
                     reply = "Haha, yes! My dream is an American boyfriend! 🇺🇸✨";
-                } else if (lowerText.includes("cake") || lowerText.includes("food") || lowerText.includes("chocolate")) {
-                    reply = "Mmm chocolate cake is literally the best food item on earth! 🍰🍫";
+                } else if (lowerText.includes("ramen") || lowerText.includes("food") || lowerText.includes("eat")) {
+                    reply = "Mmm a warm bowl of ramen is literally my absolute favorite! 🍜😋";
                 } else if (lowerText.includes("animal") || lowerText.includes("dog") || lowerText.includes("golden")) {
                     reply = "Golden Retrievers are so sweet and fluffy! My favorite forever! 🐾🐕";
                 } else if (lowerText.includes("color")) {
                     reply = "Light yellow and white are the prettiest, calmest colors! 💛⬜";
+                } else if (lowerText.includes("hair") || lowerText.includes("eyes") || lowerText.includes("face") || lowerText.includes("beauty")) {
+                    reply = "Aw, thank you! I love my long cute hair, kind eyes, and a cute face! ✨💇‍♀️";
                 }
 
                 renderMessage(reply, "bot");
