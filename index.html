@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guess My Favorites! ✨</title>
-    <!-- Importing Ranade Font via Fontshare API -->
+    <!-- Ranade Font Connection -->
     <link href="https://fontshare.com[]=ranade@300,400,500,700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -38,7 +38,7 @@
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.3rem;
             font-weight: 700;
             color: var(--text-main);
             margin-bottom: 5px;
@@ -47,27 +47,26 @@
 
         .subtitle {
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-weight: 400;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
-        /* Navigation Tabs */
+        /* Nav Layout */
         .nav-tabs {
-            display: flex;
-            gap: 8px;
-            justify-content: center;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 6px;
             margin-bottom: 20px;
-            flex-wrap: wrap;
         }
 
         .tab-btn {
             background-color: var(--card-color);
             border: 2px solid var(--accent-yellow);
             border-radius: 12px;
-            padding: 8px 14px;
+            padding: 10px 4px;
             font-family: 'Ranade', sans-serif;
-            font-size: 0.95rem;
+            font-size: 0.85rem;
             cursor: pointer;
             color: var(--text-main);
             font-weight: 700;
@@ -80,6 +79,7 @@
             transform: translateY(-2px);
         }
 
+        /* Score Tracker Banner */
         .scoreboard {
             background-color: var(--card-color);
             border: 3px solid var(--accent-yellow);
@@ -87,17 +87,18 @@
             padding: 12px 25px;
             display: inline-flex;
             gap: 20px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 0px var(--accent-yellow);
+            margin-bottom: 20px;
+            box-shadow: 0 6px 0px var(--accent-yellow);
         }
 
+        /* Core Card Structure */
         .card {
             background-color: var(--card-color);
-            border-radius: 30px;
-            padding: 30px 20px;
-            box-shadow: 0 10px 20px rgba(93, 87, 69, 0.05);
+            border-radius: 24px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 20px rgba(93, 87, 69, 0.04);
             border: 3px solid #FFF;
             margin-bottom: 20px;
             display: none;
@@ -107,34 +108,47 @@
             display: block;
         }
 
-        .question-num {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .section-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0 0 5px 0;
+        }
+
+        .section-desc {
             color: var(--text-muted);
-            margin-bottom: 10px;
+            font-size: 0.95rem;
+            margin: 0 0 20px 0;
+        }
+
+        /* Quiz Specifics */
+        .question-num {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
             font-weight: 500;
         }
 
         .question-text {
-            font-size: 1.6rem;
-            margin: 0 0 25px 0;
+            font-size: 1.45rem;
+            margin: 0 0 20px 0;
             font-weight: 700;
         }
 
         .options-grid {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .option-btn {
             background-color: var(--bg-color);
             border: 2px solid var(--accent-yellow);
-            border-radius: 15px;
-            padding: 15px;
+            border-radius: 14px;
+            padding: 14px;
             font-family: 'Ranade', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--text-main);
             cursor: pointer;
             transition: all 0.2s ease;
@@ -163,10 +177,10 @@
         .next-btn, .action-btn {
             background-color: var(--accent-yellow);
             border: 3px solid #FFF;
-            border-radius: 20px;
-            padding: 12px 35px;
+            border-radius: 18px;
+            padding: 12px 30px;
             font-family: 'Ranade', sans-serif;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: var(--text-main);
             cursor: pointer;
@@ -179,38 +193,37 @@
             box-shadow: 0 2px 0px var(--hover-yellow);
         }
 
-        /* Beauty Standards List Styles */
+        /* Ratings Lists */
         .rating-row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 12px 10px;
+            padding: 12px 8px;
             border-bottom: 2px dashed var(--bg-color);
         }
         
         .rating-label {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 500;
-            text-align: left;
         }
 
         .stars {
             color: var(--star-gold);
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             letter-spacing: 2px;
         }
 
-        /* Interactive Friend Rate Input Panel */
+        /* User Input Fields */
         .input-group {
-            margin-bottom: 18px;
+            margin-bottom: 15px;
             text-align: left;
         }
 
         .input-group label {
             display: block;
-            font-size: 1.1rem;
-            font-weight: 600;
-            margin-bottom: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
         }
 
         .rate-input {
@@ -219,32 +232,31 @@
             border-radius: 12px;
             padding: 10px;
             font-family: 'Ranade', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             box-sizing: border-box;
             outline: none;
         }
 
-        .star-rating-select {
+        .star-picker-container {
             display: flex;
-            gap: 8px;
+            gap: 6px;
             font-size: 2rem;
             cursor: pointer;
-            color: #DDD;
+            color: #E5E0D0;
             user-select: none;
             justify-content: center;
-            margin: 10px 0;
+            margin: 8px 0;
         }
 
-        .star-rating-select .star.selected {
+        .star-picker-container .star.selected {
             color: var(--star-gold);
         }
 
-        /* Friend Ratings Scoreboard Table */
+        /* Data Tables */
         .score-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 15px;
-            font-size: 1rem;
         }
 
         .score-table th {
@@ -252,38 +264,39 @@
             padding: 10px;
             font-weight: 700;
             text-align: left;
-            border-radius: 6px;
+            border-radius: 8px;
+            font-size: 0.95rem;
         }
 
         .score-table td {
-            padding: 12px 10px;
+            padding: 10px;
             border-bottom: 1px solid var(--bg-color);
             text-align: left;
+            font-size: 0.95rem;
         }
 
-        /* Chat System Styles */
+        /* Live Chat Layout */
         .chat-box {
-            height: 250px;
+            height: 230px;
             background-color: var(--bg-color);
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 15px;
             overflow-y: auto;
             display: flex;
             flex-direction: column;
             gap: 10px;
             border: 2px solid var(--accent-yellow);
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .chat-msg {
-            max-width: 75%;
+            max-width: 80%;
             padding: 10px 14px;
-            border-radius: 18px;
-            font-size: 1rem;
+            border-radius: 16px;
+            font-size: 0.95rem;
             line-height: 1.4;
             text-align: left;
             word-break: break-word;
-            font-weight: 400;
         }
 
         .msg-bot {
@@ -307,12 +320,11 @@
         .chat-input {
             flex: 1;
             border: 2px solid var(--accent-yellow);
-            border-radius: 15px;
+            border-radius: 14px;
             padding: 12px;
             font-family: 'Ranade', sans-serif;
-            font-size: 1rem;
+            font-size: 0.95rem;
             outline: none;
-            font-weight: 400;
         }
     </style>
 </head>
@@ -322,15 +334,15 @@
         <h1>All About Me! 🍳</h1>
         <div class="subtitle">Welcome to my personal mini world!</div>
 
-        <!-- Navigation Tabs -->
+        <!-- System Navigation -->
         <div class="nav-tabs">
             <button class="tab-btn active" id="tab-quiz" onclick="switchTab('quiz')">Quiz 🎮</button>
-            <button class="tab-btn" id="tab-beauty" onclick="switchTab('beauty')">My Standards ⭐</button>
+            <button class="tab-btn" id="tab-beauty" onclick="switchTab('beauty')">Standards ⭐</button>
             <button class="tab-btn" id="tab-rate" onclick="switchTab('rate')">Rate Me 📝</button>
             <button class="tab-btn" id="tab-chat" onclick="switchTab('chat')">Chat 💬</button>
         </div>
 
-        <!-- PANEL 1: QUIZ GAME -->
+        <!-- VIEW 1: QUIZ TIMELINE -->
         <div id="panel-quiz" class="card active-panel">
             <div class="scoreboard">
                 <div>Score: <span id="score">0</span>/<span id="total-score">0</span></div>
@@ -345,17 +357,17 @@
             </div>
 
             <div id="quiz-results" style="display: none;">
-                <div class="question-text">🎉 Quiz Finished! 🎉</div>
-                <div class="question-text" style="font-size: 2.2rem; color: var(--text-muted);" id="final-score-text">0/0</div>
-                <p id="feedback-text" style="font-size: 1.2rem; margin-bottom: 25px;">Wow! You are a great friend!</p>
+                <div class="section-title">🎉 Quiz Finished! 🎉</div>
+                <div class="question-text" style="font-size: 2.2rem; color: var(--text-muted); margin-top: 10px;" id="final-score-text">0/0</div>
+                <p id="feedback-text" style="font-size: 1.1rem; margin-bottom: 20px;">Wow! You are a great friend!</p>
                 <button class="action-btn" onclick="restartQuiz()">Play Again 🔄</button>
             </div>
         </div>
 
-        <!-- PANEL 2: MY BEAUTY STANDARDS -->
+        <!-- VIEW 2: PROFILE STANDARDS DISPLAY -->
         <div id="panel-beauty" class="card">
-            <div class="question-text" style="margin-bottom: 10px;">My Beauty Standards 💅</div>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Features I find attractive rated from 1 to 5 stars!</p>
+            <div class="section-title">My Beauty Standards 💅</div>
+            <div class="section-desc">Features I find attractive rated from 1 to 5 stars!</div>
             
             <div id="beauty-list">
                 <div class="rating-row">
@@ -381,20 +393,20 @@
             </div>
         </div>
 
-        <!-- PANEL 3: FRIENDS RATE ME & SCOREBOARD -->
+        <!-- VIEW 3: SYSTEM RANKINGS & REVIEW MATRIX -->
         <div id="panel-rate" class="card">
-            <div class="question-text" style="margin-bottom: 5px;">Rate Me! 🎀</div>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Friends can leave a rating and see the scoreboard below!</p>
+            <div class="section-title">Rate Me! 🎀</div>
+            <div class="section-desc">Leave your personal rating score on my profile below.</div>
             
-            <!-- Rating Form -->
-            <div style="background-color: var(--bg-color); padding: 20px; border-radius: 20px; border: 2px solid var(--accent-yellow); margin-bottom: 25px;">
+            <!-- Dynamic Entry Node -->
+            <div style="background-color: var(--bg-color); padding: 18px; border-radius: 20px; border: 2px solid var(--accent-yellow); margin-bottom: 20px;">
                 <div class="input-group">
                     <label for="friend-name">Your Name:</label>
-                    <input type="text" id="friend-name" class="rate-input" placeholder="Enter your name...">
+                    <input type="text" id="friend-name" class="rate-input" placeholder="Enter name...">
                 </div>
                 <div class="input-group">
-                    <label>Your Rating for Me:</label>
-                    <div class="star-rating-select" id="star-picker">
+                    <label>Your Score Configuration:</label>
+                    <div class="star-picker-container" id="star-picker">
                         <span class="star" data-value="1">★</span>
                         <span class="star" data-value="2">★</span>
                         <span class="star" data-value="3">★</span>
@@ -402,11 +414,11 @@
                         <span class="star" data-value="5">★</span>
                     </div>
                 </div>
-                <button class="action-btn" style="margin-top: 5px;" onclick="submitRating()">Submit Review ✨</button>
+                <button class="action-btn" style="margin-top: 5px; width: 100%;" onclick="submitRating()">Submit Review ✨</button>
             </div>
 
-            <!-- Scoreboard Display -->
-            <div class="question-text" style="font-size: 1.3rem; margin-bottom: 10px; text-align: left;">🏆 Friend Review Board</div>
+            <!-- Global Matrix Display -->
+            <div class="section-title" style="font-size: 1.2rem; text-align: left;">🏆 Friend Review Board</div>
             <div style="overflow-x: auto;">
                 <table class="score-table">
                     <thead>
@@ -416,7 +428,6 @@
                         </tr>
                     </thead>
                     <tbody id="scoreboard-entries">
-                        <!-- Simulated saved friend scores show up here -->
                         <tr>
                             <td>Bestie Amy 🦄</td>
                             <td style="color: var(--star-gold);">⭐⭐⭐⭐⭐</td>
@@ -430,10 +441,10 @@
             </div>
         </div>
 
-        <!-- PANEL 4: CHATTING BOT SIMULATOR -->
+        <!-- VIEW 4: CHATTING CORE ENGINE -->
         <div id="panel-chat" class="card">
-            <div class="question-text" style="margin-bottom: 10px;">Chat with AI Me! 💬</div>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">Ask me questions or say hi!</p>
+            <div class="section-title">Chat with AI Me! 💬</div>
+            <div class="section-desc">Ask me questions about my day or my setup!</div>
             
             <div class="chat-box" id="chat-messages">
                 <div class="chat-msg msg-bot">Hi friend! Ask me about my crochet projects, my favorite treats, or anything else! 🥰</div>
@@ -441,14 +452,14 @@
             
             <div class="chat-input-row">
                 <input type="text" class="chat-input" id="chat-field" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()">
-                <button class="action-btn" style="margin-top:0; border-radius:15px; padding:0 20px;" onclick="sendMessage()">Send</button>
+                <button class="action-btn" style="margin-top:0; border-radius:14px; padding:0 18px;" onclick="sendMessage()">Send</button>
             </div>
         </div>
 
     </div>
 
     <script>
-        // Quiz Data configuration
+        // Production Object Graph Array Struct (Organized Profiles)
         const quizData = [
             {
                 question: "What is my absolute favorite color? 🎨",
@@ -482,7 +493,7 @@
         let hasAnswered = false;
         let selectedStarRating = 0;
 
-        // Elements
+        // Element Model Mapping
         const questionHeader = document.getElementById("question-header");
         const questionTitle = document.getElementById("question-title");
         const optionsContainer = document.getElementById("options-container");
@@ -497,7 +508,7 @@
         const finalScoreText = document.getElementById("final-score-text");
         const feedbackText = document.getElementById("feedback-text");
 
-        // Tab Switching Logic
+        // Routing View Engine
         function switchTab(tabName) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.card').forEach(panel => panel.classList.remove('active-panel'));
@@ -506,7 +517,7 @@
             document.getElementById(`panel-${tabName}`).classList.add('active-panel');
         }
 
-        // Quiz Logic
+        // Quiz State Machine Execution
         function initQuiz() {
             currentQuestionIndex = 0;
             score = 0;
@@ -589,7 +600,7 @@
             initQuiz();
         }
 
-        // Interactive Star Rating Logic
+        // Dynamic Interactive Star Controller 
         const stars = document.querySelectorAll('#star-picker .star');
         stars.forEach(star => {
             star.addEventListener('click', (e) => {
@@ -604,7 +615,7 @@
             });
         });
 
-        // Submit Rating to local Session Scoreboard
+        // Pipeline Submit Buffer
         function submitRating() {
             const nameInput = document.getElementById('friend-name');
             const nameText = nameInput.value.trim();
@@ -618,13 +629,11 @@
                 return;
             }
 
-            // Create Star String
             let starString = "";
             for (let i = 0; i < selectedStarRating; i++) {
                 starString += "⭐";
             }
 
-            // Append to table dynamic scoreboard
             const scoreboardBody = document.getElementById('scoreboard-entries');
             const newRow = document.createElement('tr');
             
@@ -637,9 +646,8 @@
 
             newRow.appendChild(nameCell);
             newRow.appendChild(scoreCell);
-            scoreboardBody.prepend(newRow); // Adds latest submission to the top
+            scoreboardBody.prepend(newRow);
 
-            // Reset Form Fields
             nameInput.value = "";
             selectedStarRating = 0;
             stars.forEach(s => s.classList.remove('selected'));
@@ -647,7 +655,7 @@
             alert("Thank you for rating me! Check out your name on the scoreboard below! 💕");
         }
 
-        // Auto Chat Reply Engine
+        // Tokenized Conversational Lexer Response Bot
         function sendMessage() {
             const chatField = document.getElementById("chat-field");
             const text = chatField.value.trim();
@@ -689,6 +697,7 @@
             box.scrollTop = box.scrollHeight;
         }
 
+        // Run Init Sequence
         initQuiz();
     </script>
 </body>
