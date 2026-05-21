@@ -50,6 +50,33 @@
             margin-bottom: 30px;
         }
 
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .tab-btn {
+            background-color: var(--card-color);
+            border: 2px solid var(--accent-yellow);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-family: 'Fredoka', sans-serif;
+            font-size: 1rem;
+            cursor: pointer;
+            color: var(--text-main);
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .tab-btn.active {
+            background-color: var(--accent-yellow);
+            box-shadow: 0 4px 0 var(--hover-yellow);
+            transform: translateY(-2px);
+        }
+
         .scoreboard {
             background-color: var(--card-color);
             border: 3px solid var(--accent-yellow);
@@ -70,6 +97,11 @@
             box-shadow: 0 10px 20px rgba(93, 87, 69, 0.05);
             border: 3px solid #FFF;
             margin-bottom: 20px;
+            display: none; /* Controlled by JS */
+        }
+
+        .card.active-panel {
+            display: block;
         }
 
         .question-num {
@@ -110,10 +142,6 @@
             transform: translateY(-2px);
         }
 
-        .option-btn:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
         .option-btn:disabled {
             cursor: not-allowed;
         }
@@ -128,7 +156,7 @@
             border-color: #F3B6B6;
         }
 
-        .next-btn {
+        .next-btn, .action-btn {
             background-color: var(--accent-yellow);
             border: 3px solid #FFF;
             border-radius: 20px;
@@ -140,73 +168,172 @@
             cursor: pointer;
             box-shadow: 0 5px 0px var(--hover-yellow);
             margin-top: 15px;
-            display: none;
         }
 
-        .next-btn:hover {
-            background-color: var(--hover-yellow);
-        }
-
-        .next-btn:active {
+        .next-btn:active, .action-btn:active {
             transform: translateY(3px);
             box-shadow: 0 2px 0px var(--hover-yellow);
         }
 
-        .results-screen {
-            display: none;
+        /* Beauty Standards Star Rating Styles */
+        .rating-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 10px;
+            border-bottom: 2px dashed var(--bg-color);
+        }
+        
+        .rating-label {
+            font-size: 1.2rem;
+            font-weight: 600;
+            text-align: left;
         }
 
-        .restart-btn {
-            background-color: var(--accent-yellow);
-            border: 3px solid #FFF;
+        .stars {
+            color: #FFD700;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+        }
+
+        /* Chat System Styles */
+        .chat-box {
+            height: 250px;
+            background-color: var(--bg-color);
             border-radius: 20px;
-            padding: 15px 40px;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 2px solid var(--accent-yellow);
+            margin-bottom: 15px;
+        }
+
+        .chat-msg {
+            max-width: 75%;
+            padding: 10px 14px;
+            border-radius: 18px;
+            font-size: 1rem;
+            line-height: 1.4;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        .msg-bot {
+            background-color: #FFF;
+            align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            border: 2px solid var(--accent-yellow);
+        }
+
+        .msg-user {
+            background-color: var(--accent-yellow);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .chat-input-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .chat-input {
+            flex: 1;
+            border: 2px solid var(--accent-yellow);
+            border-radius: 15px;
+            padding: 12px;
             font-family: 'Fredoka', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--text-main);
-            cursor: pointer;
-            box-shadow: 0 6px 0px var(--hover-yellow);
-            margin-top: 20px;
+            font-size: 1rem;
+            outline: none;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>How Well Do You Know Me? 🍳</h1>
-        <div class="subtitle">Guess my absolute favorite things!</div>
+        <h1>All About Me! 🍳</h1>
+        <div class="subtitle">Welcome to my personal mini world!</div>
 
-        <!-- Scoreboard -->
-        <div class="scoreboard">
-            <div>Score: <span id="score">0</span>/<span id="total-score">0</span></div>
-            <div>Round: <span id="current-round">1</span>/<span id="total-rounds">0</span></div>
+        <!-- Navigation Tabs -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" id="tab-quiz" onclick="switchTab('quiz')">Quiz 🎮</button>
+            <button class="tab-btn" id="tab-beauty" onclick="switchTab('beauty')">My Standards ⭐</button>
+            <button class="tab-btn" id="tab-chat" onclick="switchTab('chat')">Chat 💬</button>
         </div>
 
-        <!-- Quiz Interface -->
-        <div id="quiz-screen" class="card">
-            <div class="question-num" id="question-header">Question 1</div>
-            <div class="question-text" id="question-title">Loading...</div>
+        <!-- PANEL 1: QUIZ GAME -->
+        <div id="panel-quiz" class="card active-panel">
+            <div class="scoreboard">
+                <div>Score: <span id="score">0</span>/<span id="total-score">0</span></div>
+                <div>Round: <span id="current-round">1</span>/<span id="total-rounds">0</span></div>
+            </div>
             
-            <div class="options-grid" id="options-container">
-                <!-- Buttons dynamically loaded here -->
+            <div id="quiz-contents">
+                <div class="question-num" id="question-header">Question 1</div>
+                <div class="question-text" id="question-title">Loading...</div>
+                <div class="options-grid" id="options-container"></div>
+                <button class="next-btn" id="next-button" style="display:none;" onclick="nextQuestion()">Next ✨</button>
             </div>
 
-            <button class="next-btn" id="next-button" onclick="nextQuestion()">Next ✨</button>
+            <!-- Quiz Results Embedded Here -->
+            <div id="quiz-results" style="display: none;">
+                <div class="question-text">🎉 Quiz Finished! 🎉</div>
+                <div class="question-text" style="font-size: 2.2rem; color: var(--text-muted);" id="final-score-text">0/0</div>
+                <p id="feedback-text" style="font-size: 1.2rem; margin-bottom: 25px;">Wow! You are a great friend!</p>
+                <button class="action-btn" onclick="restartQuiz()">Play Again 🔄</button>
+            </div>
         </div>
 
-        <!-- End Screen -->
-        <div id="end-screen" class="card results-screen">
-            <div class="question-text">🎉 Quiz Finished! 🎉</div>
-            <div class="question-text" style="font-size: 2.2rem; color: var(--text-muted);" id="final-score-text">0/0</div>
-            <p id="feedback-text" style="font-size: 1.2rem; margin-bottom: 25px;">Wow! You are a great friend!</p>
-            <button class="restart-btn" onclick="restartQuiz()">Play Again 🔄</button>
+        <!-- PANEL 2: BEAUTY STANDARDS (1-5 STARS) -->
+        <div id="panel-beauty" class="card">
+            <div class="question-text" style="margin-bottom: 10px;">My Beauty Standards 💅</div>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Features I find attractive rated from 1 to 5 stars!</p>
+            
+            <div id="beauty-list">
+                <!-- ✏️ Change your traits and star values here -->
+                <div class="rating-row">
+                    <span class="rating-label">Kind Eyes 👀</span>
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-label">Cute Smile 😁</span>
+                    <span class="stars">⭐⭐⭐⭐⭐</span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-label">Tall Height 📏</span>
+                    <span class="stars">⭐⭐⭐⭐</span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-label">Nice Style/Fashion 🧥</span>
+                    <span class="stars">⭐⭐⭐⭐</span>
+                </div>
+                <div class="rating-row">
+                    <span class="rating-label">Fluffy Hair 💇‍♂️</span>
+                    <span class="stars">⭐⭐⭐</span>
+                </div>
+            </div>
         </div>
+
+        <!-- PANEL 3: CHATTING BOT SIMULATOR -->
+        <div id="panel-chat" class="card">
+            <div class="question-text" style="margin-bottom: 10px;">Chat with AI Me! 💬</div>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Ask me questions or say hi!</p>
+            
+            <div class="chat-box" id="chat-messages">
+                <div class="chat-msg msg-bot">Hi friend! Ask me about my crochet projects, my favorite treats, or anything else! 🥰</div>
+            </div>
+            
+            <div class="chat-input-row">
+                <input type="text" class="chat-input" id="chat-field" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()">
+                <button class="action-btn" style="margin-top:0; border-radius:15px; padding:0 20px;" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+
     </div>
 
     <script>
-        // ✏️ CUSTOMIZE YOUR FAVORITES HERE!
-        // Make sure the "correct" text exactly matches one of the options.
+        // Quiz Data configuration
         const quizData = [
             {
                 question: "What is my absolute favorite color? 🎨",
@@ -214,19 +341,24 @@
                 correct: "Light Yellow"
             },
             {
-                question: "If I could only eat one food forever, what is it? 🍕",
-                options: ["Sushi", "Strawberry Cake", "French Fries", "Ramen"],
-                correct: "Strawberry Cake"
+                question: "What is my absolute favorite food? 🍰",
+                options: ["Sushi", "Chocolate Cake", "French Fries", "Ramen"],
+                correct: "Chocolate Cake"
             },
             {
-                question: "What is my favorite animal? 🐾",
+                question: "What is my absolute favorite animal? 🐾",
                 options: ["Fluffy Bunny", "Capybara", "Golden Retriever", "Fat Cat"],
-                correct: "Fat Cat"
+                correct: "Golden Retriever"
             },
             {
-                question: "What is my favorite hobby? 🧸",
-                options: ["Playing Games", "Baking Sweets", "Drawing", "Sleeping"],
-                correct: "Baking Sweets"
+                question: "What is my absolute favorite hobby? 🧶",
+                options: ["Playing Games", "Crochet", "Drawing", "Baking Sweets"],
+                correct: "Crochet"
+            },
+            {
+                question: "What is my absolute ideal dream boyfriend? 🇺🇸",
+                options: ["Korean Boyfriend", "British Boyfriend", "American Boyfriend", "French Boyfriend"],
+                correct: "American Boyfriend"
             }
         ];
 
@@ -234,12 +366,13 @@
         let score = 0;
         let hasAnswered = false;
 
+        // Elements
         const questionHeader = document.getElementById("question-header");
         const questionTitle = document.getElementById("question-title");
         const optionsContainer = document.getElementById("options-container");
         const nextButton = document.getElementById("next-button");
-        const quizScreen = document.getElementById("quiz-screen");
-        const endScreen = document.getElementById("end-screen");
+        const quizContents = document.getElementById("quiz-contents");
+        const quizResults = document.getElementById("quiz-results");
         
         const scoreDisplay = document.getElementById("score");
         const totalScoreDisplay = document.getElementById("total-score");
@@ -248,18 +381,26 @@
         const finalScoreText = document.getElementById("final-score-text");
         const feedbackText = document.getElementById("feedback-text");
 
-        // Start the web app
+        // Tab Switching Logic
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.card').forEach(panel => panel.classList.remove('active-panel'));
+            
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            document.getElementById(`panel-${tabName}`).classList.add('active-panel');
+        }
+
+        // Quiz Logic
         function initQuiz() {
             currentQuestionIndex = 0;
             score = 0;
             totalScoreDisplay.textContent = quizData.length;
             totalRoundsDisplay.textContent = quizData.length;
-            quizScreen.style.display = "block";
-            endScreen.style.display = "none";
+            quizContents.style.display = "block";
+            quizResults.style.display = "none";
             loadQuestion();
         }
 
-        // Display current question data
         function loadQuestion() {
             hasAnswered = false;
             nextButton.style.display = "none";
@@ -280,7 +421,6 @@
             });
         }
 
-        // Handle answer selection
         function checkAnswer(selectedButton, selectedOption) {
             if (hasAnswered) return;
             hasAnswered = true;
@@ -305,7 +445,6 @@
             nextButton.style.display = "inline-block";
         }
 
-        // Progress to next screen
         function nextQuestion() {
             currentQuestionIndex++;
             if (currentQuestionIndex < quizData.length) {
@@ -315,10 +454,9 @@
             }
         }
 
-        // Handle score calculations and display messages
         function showEndScreen() {
-            quizScreen.style.display = "none";
-            endScreen.style.display = "block";
+            quizContents.style.display = "none";
+            quizResults.style.display = "block";
             finalScoreText.textContent = `${score} / ${quizData.length}`;
             
             const percent = (score / quizData.length) * 100;
@@ -335,7 +473,49 @@
             initQuiz();
         }
 
-        // Trigger on load
+        // Auto Chat Reply Engine
+        function sendMessage() {
+            const chatField = document.getElementById("chat-field");
+            const text = chatField.value.trim();
+            if (!text) return;
+
+            // Render user message
+            renderMessage(text, "user");
+            chatField.value = "";
+
+            // Auto simple logic responses
+            setTimeout(() => {
+                const lowerText = text.toLowerCase();
+                let reply = "That's so interesting! Tell me more! 🧸";
+
+                if (lowerText.includes("hello") || lowerText.includes("hi")) {
+                    reply = "Hi there! Glad you are visiting my site! 👋";
+                } else if (lowerText.includes("crochet")) {
+                    reply = "I absolutely love crochet! Making plushies and blankets is so cozy. 🧶";
+                } else if (lowerText.includes("boyfriend") || lowerText.includes("american")) {
+                    reply = "Haha, yes! My dream is an American boyfriend! 🇺🇸✨";
+                } else if (lowerText.includes("cake") || lowerText.includes("food") || lowerText.includes("chocolate")) {
+                    reply = "Mmm chocolate cake is literally the best food item on earth! 🍰🍫";
+                } else if (lowerText.includes("animal") || lowerText.includes("dog") || lowerText.includes("golden")) {
+                    reply = "Golden Retrievers are so sweet and fluffy! My favorite forever! 🐾🐕";
+                } else if (lowerText.includes("color")) {
+                    reply = "Light yellow and white are the prettiest, calmest colors! 💛⬜";
+                }
+
+                renderMessage(reply, "bot");
+            }, 600);
+        }
+
+        function renderMessage(text, sender) {
+            const box = document.getElementById("chat-messages");
+            const msgEl = document.createElement("div");
+            msgEl.classList.add("chat-msg", sender === "user" ? "msg-user" : "msg-bot");
+            msgEl.textContent = text;
+            box.appendChild(msgEl);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        // Initialization
         initQuiz();
     </script>
 </body>
